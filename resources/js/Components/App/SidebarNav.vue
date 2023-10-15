@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1">
+  <nav class="flex space-x-2 flex-col lg:space-x-0 lg:space-y-1 w-full lg:w-[200px]">
     <Button
         v-for="item in sidebarNavItems"
         :key="item.title"
@@ -7,7 +7,7 @@
         :href="route(item.routeName)"
         variant="ghost"
         :class="cn(
-        'w-full text-left justify-between space-x-2 group',
+        'text-left justify-between space-x-2 group',
         checkCurrentRoute(item.routeName) && 'bg-muted hover:bg-muted',
       )"
     >
