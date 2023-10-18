@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::controller(ForumController::class)
     ->name('app.forum.')
     ->prefix('/app/forum')
-//    ->middleware(['auth'])
+    ->middleware(['auth'])
     ->group(function () {
         Route::get('/', 'index')->name('index');
     });

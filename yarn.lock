@@ -271,6 +271,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     "fastq" "^1.6.0"
 
+"@radix-ui/colors@^3.0.0":
+  "integrity" "sha512-FUOsGBkHrYJwCSEtWRCIfQbZG7q1e6DgxCIOe1SUQzDe/7rXXeA47s8yCn6fuTNQAj1Zq4oTFi9Yjp3wzElcxg=="
+  "resolved" "https://registry.npmjs.org/@radix-ui/colors/-/colors-3.0.0.tgz"
+  "version" "3.0.0"
+
 "@tailwindcss/forms@^0.5.3":
   "integrity" "sha512-Fw+2BJ0tmAwK/w01tEFL5TiaJBX1NLT1/YbWgvm7ws3Qcn11kiXxzNTEQDMs5V3mQemhB56l3u0i9dwdzSQldA=="
   "resolved" "https://registry.npmjs.org/@tailwindcss/forms/-/forms-0.5.6.tgz"
