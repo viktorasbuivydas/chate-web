@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1 w-full lg:w-[200px]">
+  <nav class="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1 w-full lg:w-[200px] fixed right-10">
     <template v-if="activeUsers.length > 0">
       <Button
           v-for="item in activeUsers"

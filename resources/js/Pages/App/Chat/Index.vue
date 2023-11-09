@@ -5,6 +5,11 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 
 <template>
   <AppLayout>
-    Future Chat page
+    <div class="flex flex-col h-full">
+        <div>Bendras chat</div>
+        <div class="flex flex-col overflow-y-auto bg-gray-800 px-4 h-full">
+            test
+        </div>
+    </div>
   </AppLayout>
 </template>
