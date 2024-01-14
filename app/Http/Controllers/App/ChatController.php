@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\App;
 
+use App\Events\MessageSent;
 use App\Http\Requests\ChatRequest;
 
 class ChatController
@@ -15,9 +16,11 @@ class ChatController
     {
         try {
             $user = auth()->user();
-            $user->chats()->create([
+            $chat = $user->chats()->create([
                 'message' => $request->message,
             ]);
+
+            event(new MessageSent($chat));
         } catch (\Exception $e) {
             return redirect()->route('app.chat.index')->with([
                 'error' => 'Failed to send message',

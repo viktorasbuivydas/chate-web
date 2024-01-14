@@ -17,7 +17,6 @@ use App\Http\Controllers\ProfileController;
 */
 
 Route::get('/', function () {
-    //    event(new \App\Events\MyEvent('hello world'));
     return Inertia::render('Index');
 })->name('index');
 
