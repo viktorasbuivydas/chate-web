@@ -31,7 +31,7 @@ class AuthController extends Controller
 
         // create user
         $user = User::create([
-            'name' => $socialUser->getName(),
+            'name' => explode(' ', $socialUser->getName())[0],
             'email' => $socialUser->getEmail(),
             'google_id' => $socialUser->getId(),
             'password' => bcrypt(Str::random(32)),

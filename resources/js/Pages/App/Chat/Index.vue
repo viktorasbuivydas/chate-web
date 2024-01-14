@@ -4,7 +4,14 @@
             <div
                 class="flex flex-col space-y-2 bg-backround border-1 border-input rounded-md p-4"
             >
-                <h2 class="px-4">Pokalbių kanalas</h2>
+                <h2 class="px-4">
+                    Pokalbių kanalas
+                    <span class="text-md"
+                        ><Eye class="inline-block ml-2" size="1.3rem" /> ({{
+                            activeUsers.length
+                        }})</span
+                    >
+                </h2>
 
                 <div
                     class="px-4 flex flex-col space-y-2 w-full overflow-y-auto h-[calc(100vh-250px)]"
@@ -53,7 +60,7 @@ import { Button } from "@/shadcn/ui/button";
 import { Textarea } from "@/shadcn/ui/textarea";
 import ChatMessage from "@/Components/App/Chat/Message.vue";
 import { ref, onMounted } from "vue";
-import { Loader } from "lucide-vue-next";
+import { Loader, Eye } from "lucide-vue-next";
 import useScroll from "@/Use/useScroll";
 import { useForm } from "@inertiajs/vue3";
 
@@ -68,6 +75,8 @@ const isLoading = ref(false);
 const form = useForm({
     message: "",
 });
+var channel = window.Echo.join("chat");
+const activeUsers = ref([]);
 
 const handleSubmit = () => {
     isLoading.value = true;
@@ -81,5 +90,8 @@ const { scrollToBottom } = useScroll();
 
 onMounted(() => {
     scrollToBottom(chat.value);
+    channel.here((users) => {
+        activeUsers.value = users;
+    });
 });
 </script>

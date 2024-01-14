@@ -23,3 +23,10 @@ Broadcast::channel('online', function ($user) {
         'name' => $user->name,
     ];
 });
+
+Broadcast::channel('chat', function ($user) {
+    return [
+        'id' => $user->id,
+        'name' => $user->name,
+    ];
+});
