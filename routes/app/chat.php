@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\App\ChatController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\App\ChatController;
 
 
 Route::controller(ChatController::class)
@@ -10,4 +10,5 @@ Route::controller(ChatController::class)
     ->middleware(['auth'])
     ->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/send-message', 'sendMessage')->name('send-message');
     });
