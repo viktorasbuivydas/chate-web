@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +17,13 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-//    event(new \App\Events\MyEvent('hello world'));
+    //    event(new \App\Events\MyEvent('hello world'));
     return Inertia::render('Index');
 });
 
 
 Route::group([], base_path('routes/app/index.php'));
+Route::group([], base_path('routes/auth.php'));
 Route::group([], base_path('routes/app/chat.php'));
 Route::group([], base_path('routes/app/forum.php'));
 
@@ -32,4 +33,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
