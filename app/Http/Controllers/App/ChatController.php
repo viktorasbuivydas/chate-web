@@ -26,6 +26,7 @@ class ChatController
                 'error' => 'Failed to send message',
             ]);
         }
+
         return redirect()->route('app.chat.index');
     }
 }

@@ -20,15 +20,15 @@ class MessageSent implements ShouldBroadcast
     ) {
     }
 
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
         return ['chat'];
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
-        return 'presence-chat';
+        return 'message-sent';
     }
 
-    
+
 }

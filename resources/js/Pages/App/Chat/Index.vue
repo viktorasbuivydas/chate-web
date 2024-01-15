@@ -7,7 +7,7 @@
                 <h2 class="px-4">
                     Pokalbių kanalas
                     <span class="text-md"
-                        ><Eye class="inline-block ml-2" size="1.3rem" /> ({{
+                    ><Eye class="inline-block ml-2" size="1.3rem"/> ({{
                             activeUsers.length
                         }})</span
                     >
@@ -18,19 +18,19 @@
                     id="chat"
                     ref="chat"
                 >
-                    <ChatMessage type="other" :message="fakeMessage" />
-                    <ChatMessage type="mine" :message="fakeMessage" />
-                    <ChatMessage type="mine" :message="fakeMessage" />
-                    <ChatMessage type="to_me" :message="fakeMessage" />
-                    <ChatMessage type="to_me" :message="fakeMessage" />
-                    <ChatMessage type="to_me" :message="fakeMessage" />
-                    <ChatMessage type="to_me" :message="fakeMessage" />
-                    <ChatMessage type="to_me" :message="fakeMessage" />
-                    <ChatMessage type="to_me" :message="fakeMessage" />
-                    <ChatMessage type="to_me" :message="fakeMessage" />
-                    <ChatMessage type="to_me" :message="fakeMessage" />
-                    <ChatMessage type="to_me" :message="fakeMessage" />
-                    <ChatMessage type="to_me" :message="fakeMessage" />
+                    <ChatMessage type="other" :message="fakeMessage"/>
+                    <ChatMessage type="mine" :message="fakeMessage"/>
+                    <ChatMessage type="mine" :message="fakeMessage"/>
+                    <ChatMessage type="to_me" :message="fakeMessage"/>
+                    <ChatMessage type="to_me" :message="fakeMessage"/>
+                    <ChatMessage type="to_me" :message="fakeMessage"/>
+                    <ChatMessage type="to_me" :message="fakeMessage"/>
+                    <ChatMessage type="to_me" :message="fakeMessage"/>
+                    <ChatMessage type="to_me" :message="fakeMessage"/>
+                    <ChatMessage type="to_me" :message="fakeMessage"/>
+                    <ChatMessage type="to_me" :message="fakeMessage"/>
+                    <ChatMessage type="to_me" :message="fakeMessage"/>
+                    <ChatMessage type="to_me" :message="fakeMessage"/>
                 </div>
                 <div class="flex flex-row grow justify-end items-end relative">
                     <form class="grow group" @submit.prevent="handleSubmit">
@@ -44,7 +44,7 @@
                             variant="primary"
                             :disabled="isLoading"
                         >
-                            <Loader v-if="isLoading" />
+                            <Loader v-if="isLoading"/>
                             Siųsti
                         </Button>
                     </form>
@@ -56,13 +56,13 @@
 
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { Button } from "@/shadcn/ui/button";
-import { Textarea } from "@/shadcn/ui/textarea";
+import {Button} from "@/shadcn/ui/button";
+import {Textarea} from "@/shadcn/ui/textarea";
 import ChatMessage from "@/Components/App/Chat/Message.vue";
-import { ref, onMounted } from "vue";
-import { Loader, Eye } from "lucide-vue-next";
+import {ref, onMounted} from "vue";
+import {Loader, Eye} from "lucide-vue-next";
 import useScroll from "@/Use/useScroll";
-import { useForm } from "@inertiajs/vue3";
+import {useForm} from "@inertiajs/vue3";
 
 const fakeMessage = {
     name: "Vardenis",
@@ -75,23 +75,41 @@ const isLoading = ref(false);
 const form = useForm({
     message: "",
 });
-var channel = window.Echo.join("chat");
+const channel = window.Echo.join("chat");
 const activeUsers = ref([]);
 
 const handleSubmit = () => {
     isLoading.value = true;
-    setTimeout(() => {
-        isLoading.value = false;
-    }, 1000);
+    form.post(route("app.chat.send-message"), {
+        onSuccess: () => {
+            isLoading.value = false;
+            form.reset();
+        },
+    });
 };
 
 const chat = ref(null);
-const { scrollToBottom } = useScroll();
+const {scrollToBottom} = useScroll();
 
 onMounted(() => {
     scrollToBottom(chat.value);
-    channel.here((users) => {
-        activeUsers.value = users;
-    });
+    channel
+        .here((users) => {
+            activeUsers.value = users;
+        })
+        .joining((user) => {
+            activeUsers.value.push(user);
+        })
+        .leaving((user) => {
+            activeUsers.value = activeUsers.value.filter(
+                (u) => u.id !== user.id
+            );
+        });
+
+    window.Echo.channel("chat")
+        .listen("MessageSent", (data) => {
+            console.log('hey')
+            console.log(data);
+        });
 });
 </script>
