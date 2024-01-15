@@ -1,33 +1,33 @@
-import ChatMessage from '@/Components/App/Chat/Message.vue';
 <template>
-    <template v-if="type === 'mine'">
-        <div class="grow flex justify-end">
-            <ChatMessageRow :message="message" type="mine" />
+    <template v-if="user.id === message.user.id">
+        <div class="flex justify-end">
+            <ChatMessageRow :message="message" type="mine"/>
         </div>
     </template>
-    <template v-else-if="type === 'other'">
-        <div class="grow flex justify-start">
-            <ChatMessageRow :message="message" type="other" />
+    <template v-else-if="user.id !== message.user.id && message.mentioned_user_id !== user.id">
+        <div class="flex justify-start">
+            <ChatMessageRow :message="message" type="other"/>
         </div>
     </template>
-    <template v-else-if="type === 'to_me'">
-        <div class="grow flex justify-start">
-            <ChatMessageRow :message="message" type="to_me" />
+    <template v-else-if="user.id !== message.user.id && message.mentioned_user_id">
+        <div class="flex justify-start">
+            <ChatMessageRow :message="message" type="to_me"/>
         </div>
     </template>
 </template>
 
 <script setup>
 import ChatMessageRow from "@/Components/App/Chat/MessageRow.vue";
+import {computed} from "vue";
+import {usePage} from '@inertiajs/vue3'
 
+const page = usePage()
 const props = defineProps({
-    type: {
-        type: String,
-        default: ["mine", "other", "to_me"],
-    },
     message: {
         type: Object,
         required: true,
     },
 });
+
+const user = computed(() => page.props.auth.user)
 </script>

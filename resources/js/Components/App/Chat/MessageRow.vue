@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col space-y-2">
-        <div>{{ message.name }}:</div>
+        <div>{{ message.user.name }}:</div>
 
         <div
             class="p-2 max-w-100 rounded-md"

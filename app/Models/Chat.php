@@ -12,5 +12,11 @@ class Chat extends Model
     protected $fillable = [
         'message',
         'user_id',
+        'mentioned_user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -4,12 +4,21 @@ namespace App\Http\Controllers\App;
 
 use App\Events\MessageSent;
 use App\Http\Requests\ChatRequest;
+use App\Models\Chat;
+use Illuminate\Support\Facades\Request;
 
 class ChatController
 {
-    public function index()
+    public function index(Request $request)
     {
-        return inertia('App/Chat/Index');
+        $messages = Chat::query()
+            ->with('user')
+            ->oldest()
+            ->paginate(20);
+
+        return inertia('App/Chat/Index', [
+            'messages' => $messages,
+        ]);
     }
 
     public function sendMessage(ChatRequest $request)
@@ -20,6 +29,7 @@ class ChatController
                 'message' => $request->message,
             ]);
 
+            $chat->load('user');
             event(new MessageSent($chat));
         } catch (\Exception $e) {
             return redirect()->route('app.chat.index')->with([
