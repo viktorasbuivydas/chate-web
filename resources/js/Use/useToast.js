@@ -1,4 +1,4 @@
-const useToast = () => {
+export default function useToast() {
     const toast = (message, type) => {
         window.toast.fire({
             icon: type,
@@ -10,5 +10,3 @@ const useToast = () => {
         toast
     }
 }
-
-export default useToast;

@@ -13,8 +13,8 @@ class ChatController
     {
         $messages = Chat::query()
             ->with('user')
-            ->oldest()
-            ->paginate(20);
+            ->latest()
+            ->paginate(10);
 
         return inertia('App/Chat/Index', [
             'messages' => $messages,

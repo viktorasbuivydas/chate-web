@@ -1,4 +1,4 @@
-const useScroll = () => {
+export default function useScroll() {
     const scrollToBottom = (element) => {
         if (element) {
             element.scrollTop = element.scrollHeight;
@@ -8,6 +8,4 @@ const useScroll = () => {
     return {
         scrollToBottom,
     };
-};
-
-export default useScroll;
+}
