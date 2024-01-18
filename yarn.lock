@@ -271,6 +271,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     "fastq" "^1.6.0"
 
+"@radix-ui/colors@^3.0.0":
+  "integrity" "sha512-FUOsGBkHrYJwCSEtWRCIfQbZG7q1e6DgxCIOe1SUQzDe/7rXXeA47s8yCn6fuTNQAj1Zq4oTFi9Yjp3wzElcxg=="
+  "resolved" "https://registry.npmjs.org/@radix-ui/colors/-/colors-3.0.0.tgz"
+  "version" "3.0.0"
+
 "@tailwindcss/forms@^0.5.3":
   "integrity" "sha512-Fw+2BJ0tmAwK/w01tEFL5TiaJBX1NLT1/YbWgvm7ws3Qcn11kiXxzNTEQDMs5V3mQemhB56l3u0i9dwdzSQldA=="
   "resolved" "https://registry.npmjs.org/@tailwindcss/forms/-/forms-0.5.6.tgz"
@@ -1153,6 +1158,15 @@
     "read-cache" "^1.0.0"
     "resolve" "^1.1.7"
 
+"postcss-import@^16.0.0":
+  "integrity" "sha512-e77lhVvrD1I2y7dYmBv0k9ULTdArgEYZt97T4w6sFIU5uxIHvDFQlKgUUyY7v7Barj0Yf/zm5A4OquZN7jKm5Q=="
+  "resolved" "https://registry.npmjs.org/postcss-import/-/postcss-import-16.0.0.tgz"
+  "version" "16.0.0"
+  dependencies:
+    "postcss-value-parser" "^4.0.0"
+    "read-cache" "^1.0.0"
+    "resolve" "^1.1.7"
+
 "postcss-js@^4.0.1":
   "integrity" "sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw=="
   "resolved" "https://registry.npmjs.org/postcss-js/-/postcss-js-4.0.1.tgz"
@@ -1207,10 +1221,10 @@
   "resolved" "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz"
   "version" "1.1.0"
 
-"pusher-js@^8.3.0":
-  "integrity" "sha512-6GohP06WlVeomAQQe9qWh1IDzd3+InluWt+ZUOcecVK1SEQkg6a8uYVsvxSJm7cbccfmHhE0jDkmhKIhue8vmA=="
-  "resolved" "https://registry.npmjs.org/pusher-js/-/pusher-js-8.3.0.tgz"
-  "version" "8.3.0"
+"pusher-js@^8.4.0-rc2":
+  "integrity" "sha512-d87GjOEEl9QgO5BWmViSqW0LOzPvybvX6WA9zLUstNdB57jVJuR27zHkRnrav2a3+zAMlHbP2Og8wug+rG8T+g=="
+  "resolved" "https://registry.npmjs.org/pusher-js/-/pusher-js-8.4.0-rc2.tgz"
+  "version" "8.4.0-rc2"
   dependencies:
     "tweetnacl" "^1.0.3"
 

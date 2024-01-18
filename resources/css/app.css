@@ -4,6 +4,7 @@
  
 @layer base {
   :root {
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
  
@@ -66,13 +67,35 @@
  
     --ring: 212.7 26.8% 83.9%;
   }
-}
- 
-@layer base {
+
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+  h1 {
+    @apply text-2xl font-bold text-foreground;
+  }
+  h2 {
+    @apply text-xl font-bold text-foreground;
+  }
+  #chat::-webkit-scrollbar {
+    width: 8px;
+    height: 20px;
+  }
+
+  #chat::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    @apply bg-gray-800;
+  }
+
+  #chat::-webkit-scrollbar-thumb {
+    @apply bg-gray-600 border border-gray-100 rounded-full;
+  }
+
+  #chat::-webkit-scrollbar-thumb:hover {
+    background: #c0a0b9;
   }
 }
