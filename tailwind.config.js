@@ -1,4 +1,4 @@
-const {mauve, green, grass, blackA} = require('@radix-ui/colors')
+const { mauve, green, grass, blackA } = require("@radix-ui/colors");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ["class"],
@@ -19,6 +19,16 @@ module.exports = {
             },
         },
         extend: {
+            width: {
+                10: "40px",
+                100: "400px",
+            },
+            spacing: {
+                100: "400px",
+            },
+            maxWidth: {
+                100: "400px",
+            },
             colors: {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
@@ -61,30 +71,43 @@ module.exports = {
             },
             keyframes: {
                 "accordion-down": {
-                    from: {height: 0},
-                    to: {height: "var(--radix-accordion-content-height)"},
+                    from: { height: 0 },
+                    to: { height: "var(--radix-accordion-content-height)" },
                 },
                 "accordion-up": {
-                    from: {height: "var(--radix-accordion-content-height)"},
-                    to: {height: 0},
+                    from: { height: "var(--radix-accordion-content-height)" },
+                    to: { height: 0 },
                 },
                 overlayShow: {
-                    from: {opacity: 0},
-                    to: {opacity: 1},
+                    from: { opacity: 0 },
+                    to: { opacity: 1 },
                 },
                 contentShow: {
-                    from: {opacity: 0, transform: 'translate(-50%, -48%) scale(0.96)'},
-                    to: {opacity: 1, transform: 'translate(-50%, -50%) scale(1)'},
+                    from: {
+                        opacity: 0,
+                        transform: "translate(-50%, -48%) scale(0.96)",
+                    },
+                    to: {
+                        opacity: 1,
+                        transform: "translate(-50%, -50%) scale(1)",
+                    },
                 },
+            },
+            borderWidth: {
+                1: "1px",
+                2: "2px",
+                3: "3px",
+            },
+            padding: {
+                30: "120px",
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
-                overlayShow: 'overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
-                contentShow: 'contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
-
+                overlayShow: "overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+                contentShow: "contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
             },
         },
     },
     plugins: [require("tailwindcss-animate")],
-}
+};
