@@ -1,19 +1,7 @@
 <template>
   <div class="flex justify-end px-10 pt-4 space-x-4">
-    <Button variant="ghost" href="/"
-            class="rounded-full border-0 hover:outline bg-background hover:bg-muted hover:outline-input relative">
-      <MessageSquare class="inline-block" size="1.3rem"/>
-      <span class="absolute top-0 right-0 text-xs text-white bg-red-500 rounded-full w-5 h-5 flex justify-center items-center">
-        1
-      </span>
-    </Button>
-    <Button variant="ghost" href="/"
-            class="rounded-full border-0 hover:outline bg-background hover:bg-muted hover:outline-input relative">
-      <Bell class="inline-block" size="1.3rem"/>
-      <span class="absolute top-0 right-0 text-xs text-white bg-red-500 rounded-full w-5 h-5 flex justify-center items-center">
-        1
-      </span>
-    </Button>
+    <InboxDropdown/>
+    <NotificationsDropdown/>
     <UserNavigation/>
   </div>
   <div class="hidden space-y-6 px-4 pt-10 md:flex relative">
@@ -36,8 +24,8 @@ import SidebarNav from '@/Components/App/SidebarNav.vue'
 import UserNavigation from "@/Components/App/Dropdowns/UserNavigation.vue";
 import {onMounted, ref} from "vue";
 import RightSidebarNav from "@/Components/App/RightSidebarNav.vue";
-import Button from "@/shadcn/ui/button/Button.vue";
-import {MessageSquare, Bell} from 'lucide-vue-next';
+import InboxDropdown from "@/Components/App/Dropdowns/Inbox.vue";
+import NotificationsDropdown from "@/Components/App/Dropdowns/Notifications.vue";
 
 var channel = window.Echo.join('online');
 const activeUsers = ref([]);
