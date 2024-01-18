@@ -1,9 +1,10 @@
 <template>
-    <nav class="flex space-x-2 flex-col lg:space-x-0 lg:space-y-1 w-fit fixed">
+    <nav class="flex space-x-2 flex-col lg:space-x-0 lg:space-y-1 w-full justify-center items-center">
         <Button
             v-for="item in sidebarNavItems"
             :key="item.title"
             :href="route(item.routeName)"
+            as="a"
             variant="ghost"
             :title="item.title"
             :class="cn(
@@ -33,7 +34,8 @@ const checkCurrentRoute = (routeName: string) => {
 interface Item {
     title: string,
     icon: any,
-    routeName: string
+    routeName: string,
+    count?: number,
 }
 
 const sidebarNavItems: Item[] = [

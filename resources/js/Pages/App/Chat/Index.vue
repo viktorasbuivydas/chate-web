@@ -1,6 +1,6 @@
 <template>
     <AppLayout>
-        <div class="flex flex-col h-screen space-y-2">
+        <div class="flex flex-col space-y-2">
             <div
                 class="flex flex-col space-y-2 bg-backround border-1 border-input rounded-md p-4"
             >
