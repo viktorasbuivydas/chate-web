@@ -26,8 +26,6 @@ export default function useInfiniteScrolling(propName, landmark = null, callback
 
         isLoading.value = true;
 
-        const chat = document.querySelector("#chat");
-
         setTimeout(async () => {
             await router.get(
                 value().next_page_url,
