@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col space-y-2" id="message-{{ message.id }}">
+    <div class="flex flex-col space-y-2" :id="'message-'+ message.id ">
         <div>{{ message.user.name }}:</div>
 
         <div

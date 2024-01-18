@@ -18,8 +18,8 @@
             ref="chat"
             @scroll="handleScroll"
         >
-          <div ref="intersector"></div>
-
+          <div ref="landmark" v-if="canLoadMoreItems"></div>
+          <div v-else class="flex justify-center text-muted-foreground">Pasieketė pokalbių kanalo pabaigą</div>
           <ChatMessage v-for="(message, index) in items" :key="index" :message="message"/>
           <!--                    make sure we add 5% offset to the center of the screen-->
           <div class="fixed bottom-[120px] z-10 left-[45%]" v-if="isThereAnyNewMessage">
@@ -62,9 +62,8 @@ import ChatMessage from "@/Components/App/Chat/Message.vue";
 import {ref, onMounted} from "vue";
 import {Loader, Eye, MoveDown} from "lucide-vue-next";
 import useScroll from "@/Use/useScroll";
-import useSorting from "@/Use/useSorting";
-import useArray from "@/Use/useArray";
-import {router, useForm, usePage} from "@inertiajs/vue3";
+import {useForm} from "@inertiajs/vue3";
+import useInfiniteScrolling from "@/Use/useInfiniteScrolling.js";
 
 
 const props = defineProps({
@@ -86,27 +85,11 @@ const bottomChatPositionNumber = ref(0);
 const isThereAnyNewMessage = ref(false);
 const currentScrollPosition = ref(0);
 const chat = ref(null);
-
+const landmark = ref(null);
 const {scrollToBottom} = useScroll();
-const {sortAscending} = useSorting();
-const {lastItem} = useArray();
-const initialUrl = usePage().url
 
-const items = ref(sortAscending(props.messages.data));
-const lastFetchedMessageId = ref(lastItem(items.value).id);
+const {items, canLoadMoreItems} = useInfiniteScrolling('messages', landmark)
 
-const intersector = ref(null);
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      loadMoreMessages();
-    }
-  });
-}, {
-  rootMargin: "0px 0px -100px 0px",
-
-});
 
 const handleSubmit = () => {
   isLoading.value = true;
@@ -121,7 +104,6 @@ const handleSubmit = () => {
 onMounted(() => {
   scrollToBottom(chat.value);
   bottomChatPositionNumber.value = chat.value.scrollTop;
-  observer.observe(intersector.value);
 
   channel
       .here((users) => {
@@ -160,19 +142,4 @@ const scrollDown = () => {
   isThereAnyNewMessage.value = false;
 };
 
-const loadMoreMessages = () => {
-  if (!props.messages.next_page_url) {
-    return;
-  }
-
-  router.get(props.messages.next_page_url, {}, {
-    preserveState: true,
-    replace: true,
-    onSuccess: () => {
-      window.history.replaceState({}, '', initialUrl);
-      // add to the start of the array
-      items.value.splice(0, 0, ...sortAscending(props.messages.data));
-    }
-  })
-};
 </script>

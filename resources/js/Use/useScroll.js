@@ -5,7 +5,14 @@ export default function useScroll() {
         }
     };
 
+    const scrollToElement = (element, options = {}) => {
+        if (element) {
+            element.scrollIntoView(options);
+        }
+    }
+
     return {
         scrollToBottom,
+        scrollToElement
     };
 }

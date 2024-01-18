@@ -1,4 +1,6 @@
-export default function useIntersect (element, callback, options = {}) {
+import {onMounted, onUnmounted} from "vue";
+
+export default function useIntersect (element, callback = () => {}, options = {}) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -7,7 +9,14 @@ export default function useIntersect (element, callback, options = {}) {
         });
     }, options);
 
-    observer.observe(element);
+
+    onMounted(() => {
+        observer.observe(element.value);
+    });
+
+    onUnmounted(() => {
+        observer.disconnect();
+    });
 
     return {
         observer,
