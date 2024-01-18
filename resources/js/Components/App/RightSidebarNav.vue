@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1 w-full lg:w-[200px] fixed right-10">
+  <nav class="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1 w-full">
     <template v-if="activeUsers.length > 0">
       <Button
           v-for="item in activeUsers"
@@ -7,13 +7,16 @@
           as="a"
           variant="outline"
           :class="cn(
-        'text-left justify-between space-x-2 group justify-between',
+        'items-center justify-start text-left space-x-2 group',
       )"
       >
-        <span>{{ item.name }}</span>
-        <div>
-          Online
-        </div>
+        <span
+            class="p-1 text-xs font-medium bg-green-500 group-hover:bg-green-600 text-white px-1 rounded-full">
+        </span>
+        <span>{{ item.name }}
+
+        </span>
+
       </Button>
     </template>
     <template v-else>
