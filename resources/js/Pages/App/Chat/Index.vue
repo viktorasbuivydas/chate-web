@@ -135,7 +135,7 @@ onMounted(() => {
 });
 
 const handleScroll = (event) => {
-  currentScrollPosition.value = event.target.scrollTop;
+  currentScrollPosition.value = event.target.scrollHeight;
 };
 
 const scrollDown = () => {
