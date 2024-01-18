@@ -18,8 +18,11 @@
             ref="chat"
             @scroll="handleScroll"
         >
+          <div class="flex justify-center" v-if="isLoading">
+            <Loader/> Kraunasi...
+          </div>
           <div ref="landmark" v-if="canLoadMoreItems"></div>
-          <div v-else class="flex justify-center text-muted-foreground">Pasieketė pokalbių kanalo pabaigą</div>
+          <div v-else-if="!isLoading" class="flex justify-center text-muted-foreground">Pasieketė pokalbių kanalo pabaigą</div>
           <ChatMessage v-for="(message, index) in items" :key="index" :message="message"/>
           <!--                    make sure we add 5% offset to the center of the screen-->
           <div class="fixed bottom-[120px] z-10 left-[45%]" v-if="isThereAnyNewMessage">
@@ -60,11 +63,11 @@ import {Button} from "@/shadcn/ui/button";
 import {Textarea} from "@/shadcn/ui/textarea";
 import ChatMessage from "@/Components/App/Chat/Message.vue";
 import {ref, onMounted} from "vue";
-import {Loader, Eye, MoveDown} from "lucide-vue-next";
+import {Eye, MoveDown} from "lucide-vue-next";
+import Loader from "@/Components/Loader.vue";
 import useScroll from "@/Use/useScroll";
 import {useForm} from "@inertiajs/vue3";
 import useInfiniteScrolling from "@/Use/useInfiniteScrolling.js";
-
 
 const props = defineProps({
   messages: {
@@ -72,8 +75,6 @@ const props = defineProps({
     required: true,
   },
 })
-
-const isLoading = ref(false);
 
 const form = useForm({
   message: "",
@@ -88,7 +89,7 @@ const chat = ref(null);
 const landmark = ref(null);
 const {scrollToBottom} = useScroll();
 
-const {items, canLoadMoreItems} = useInfiniteScrolling('messages', landmark)
+const {items, canLoadMoreItems, isLoading} = useInfiniteScrolling('messages', landmark)
 
 
 const handleSubmit = () => {

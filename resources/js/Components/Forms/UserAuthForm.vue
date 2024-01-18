@@ -29,7 +29,6 @@
                 <Button :disabled="isLoading" variant="primary">
                     <Loader
                         v-if="isLoading"
-                        class="mr-2 h-4 w-4 animate-spin"
                     />
                     Gauti registracijos kodą
                 </Button>
@@ -62,7 +61,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { Loader, Mail } from "lucide-vue-next";
+import {Mail } from "lucide-vue-next";
+import Loader from "@/Components/Loader.vue";
 
 import { cn } from "@/shadcn/lib/utils";
 import { Button } from "@/shadcn/ui/button";

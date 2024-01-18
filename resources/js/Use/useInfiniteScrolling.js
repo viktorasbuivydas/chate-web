@@ -6,12 +6,11 @@ import useSorting from "./useSorting.js";
 export default function useInfiniteScrolling(propName, landmark = null, callback = () => {
 }) {
     const {sortAscending} = useSorting();
+    const isLoading = ref(false);
 
     const value = () => usePage().props[propName];
 
     const items = ref(sortAscending(value().data));
-
-    const lastFetchedItem = ref(items.value[items.value.length - 1]);
 
     const initialUrl = usePage().url;
 
@@ -21,23 +20,28 @@ export default function useInfiniteScrolling(propName, landmark = null, callback
             return;
         }
 
-        router.get(
-            value().next_page_url,
-            {},
-            {
-                preserveState: true,
-                preserveScroll: true,
-                replace: true,
-                onSuccess: () => {
-                    window.history.replaceState({}, "", initialUrl);
-                    const data = sortAscending(value().data);
-                    items.value.splice(0, 0, ...data);
+        isLoading.value = true;
 
-                    //scrollToElement(lastFetchedItem.value);
+        setTimeout(() => {
+            router.get(
+                value().next_page_url,
+                {},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    replace: true,
+                    onSuccess: () => {
+                        window.history.replaceState({}, "", initialUrl);
+                        const data = sortAscending(value().data);
+                        items.value.splice(0, 0, ...data);
 
-                    callback();
-                },
-            })
+                        callback();
+                    },
+                    onFinish: () => {
+                        isLoading.value = false;
+                    }
+                })
+        }, 1000);
     }
 
     if (landmark !== null) {
@@ -49,7 +53,7 @@ export default function useInfiniteScrolling(propName, landmark = null, callback
         loadMoreItems,
         reset: () => items.value = value().data,
         canLoadMoreItems,
-        // lastFetchedItem,
+        isLoading
     }
 }
 
