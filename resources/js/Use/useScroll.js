@@ -3,6 +3,7 @@ export default function useScroll() {
         if (!element) {
             return;
         }
+
         element.scrollTop = element.scrollHeight;
     };
 
@@ -23,9 +24,22 @@ export default function useScroll() {
         element.scrollTop = top;
     }
 
+    const isInScrollActionDeadzone = (element, howFarInPixels, callback = {}) => {
+        const currentScrollPosition = element.scrollTop + element.clientHeight;
+
+        return currentScrollPosition > element.scrollHeight - howFarInPixels;
+    }
+    const scrolledSpecifiedAmount = (element, howFarInPixels, callback = {}) => {
+        if (isInScrollActionDeadzone(element, howFarInPixels)) {
+            callback()
+        }
+    }
+
     return {
         scrollToBottom,
         scrollToElement,
         scrollToPosition,
+        scrolledSpecifiedAmount,
+        isInScrollActionDeadzone
     };
 }

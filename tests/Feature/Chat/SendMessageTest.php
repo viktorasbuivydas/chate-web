@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\Chat;
 
-use App\Models\Chat;
-use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 use App\Models\User;
 use App\Events\MessageSent;

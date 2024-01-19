@@ -19,11 +19,14 @@
             @scroll="handleScroll"
         >
           <div class="flex justify-center" v-if="isLoading">
-            <Loader/> Kraunasi...
+            <Loader/>
+            Kraunasi...
           </div>
           <div ref="landmark" v-if="canLoadMoreItems"></div>
-          <div v-else-if="!isLoading" class="flex justify-center text-muted-foreground">Pasieketė pokalbių kanalo pabaigą</div>
-          <ChatMessage v-for="(message, index) in items" :key="index" :message="message"/>
+          <div v-else-if="!isLoading" class="flex justify-center text-muted-foreground">Pasieketė pokalbių kanalo
+            pabaigą
+          </div>
+          <ChatMessage v-for="(message, index) in items" :key="index" :message="message" />
           <!--                    make sure we add 5% offset to the center of the screen-->
           <div class="fixed bottom-[120px] z-10 left-[45%]" v-if="isThereAnyNewMessage">
             <Button
@@ -62,12 +65,12 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import {Button} from "@/shadcn/ui/button";
 import {Textarea} from "@/shadcn/ui/textarea";
 import ChatMessage from "@/Components/App/Chat/Message.vue";
-import {ref, onMounted} from "vue";
+import {ref, onMounted, computed} from "vue";
 import {Eye, MoveDown} from "lucide-vue-next";
 import Loader from "@/Components/Loader.vue";
 import useScroll from "@/Use/useScroll";
-import {useForm} from "@inertiajs/vue3";
-import useInfiniteScrolling from "@/Use/useInfiniteScrolling.js";
+import {useForm, usePage} from "@inertiajs/vue3";
+import useInfiniteScrolling from "@/Use/useInfiniteScrolling";
 
 const props = defineProps({
   messages: {
@@ -84,13 +87,11 @@ const channel = window.Echo.join("chat");
 const activeUsers = ref([]);
 const bottomChatPositionNumber = ref(0);
 const isThereAnyNewMessage = ref(false);
-const currentScrollPosition = ref(0);
 const chat = ref(null);
 const landmark = ref(null);
-const {scrollToBottom} = useScroll();
-
+const {scrollToBottom, scrolledSpecifiedAmount, isInScrollActionDeadzone} = useScroll();
 const {items, canLoadMoreItems, isLoading} = useInfiniteScrolling('messages', landmark)
-
+const initialyLoaded = ref(false);
 
 const handleSubmit = () => {
   isLoading.value = true;
@@ -98,13 +99,15 @@ const handleSubmit = () => {
     onSuccess: () => {
       isLoading.value = false;
       form.reset();
+      scrollToBottom(chat.value)
     },
   });
 };
 
 onMounted(() => {
   scrollToBottom(chat.value);
-  bottomChatPositionNumber.value = chat.value.scrollTop;
+
+  bottomChatPositionNumber.value = chat.value.scrollHeight;
 
   channel
       .here((users) => {
@@ -121,21 +124,28 @@ onMounted(() => {
 
   window.Echo.channel("chat")
       .listen(".message-sent", (event) => {
-        props.messages.data.push(event.chat);
-        if (currentScrollPosition.value < bottomChatPositionNumber.value - 30) {
-          isThereAnyNewMessage.value = true;
-        } else {
-          // adding 100ms delay to make sure that the message is rendered before scrolling
-          setTimeout(() => {
-            scrollToBottom(chat.value);
-          }, 100);
+
+        if (event.chat.user_id !== user.value.id) {
+          if (isInScrollActionDeadzone(chat.value, 100)) {
+            // adding 100ms delay to make sure that the message is rendered before scrolling
+            setTimeout(() => {
+              scrollToBottom(chat.value);
+            }, 100);
+          } else {
+            isThereAnyNewMessage.value = true;
+          }
         }
 
+        items.value.push(event.chat);
       });
+  // add message to the end of the list
 });
 
 const handleScroll = (event) => {
-  currentScrollPosition.value = event.target.scrollHeight;
+  scrolledSpecifiedAmount(event.target, 100, () => {
+    isThereAnyNewMessage.value = false;
+  });
+
 };
 
 const scrollDown = () => {
@@ -143,4 +153,7 @@ const scrollDown = () => {
   isThereAnyNewMessage.value = false;
 };
 
+const user = computed(() => {
+  return usePage().props.auth.user
+})
 </script>

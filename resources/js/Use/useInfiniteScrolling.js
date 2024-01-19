@@ -47,6 +47,7 @@ export default function useInfiniteScrolling(propName, landmark = null, callback
                 })
 
             lastItemElement.value = document.getElementById('message-' + value().data[value().data.length-1].id);
+            console.log(lastItemElement.value);
             scrollToElement(lastItemElement.value, {block: 'end', behavior: 'smooth'});
         }, 1000);
     }
