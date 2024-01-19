@@ -28,6 +28,7 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/shadcn/ui/avatar";
       <DropdownMenuLabel class="font-normal flex">
         <div class="flex flex-col space-y-1">
           <p class="text-sm font-medium leading-none">
+              {{ $t('hello')}}
             Žinutės (+1)
           </p>
         </div>
