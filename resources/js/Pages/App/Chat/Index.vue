@@ -26,7 +26,7 @@
           <div v-else-if="!isLoading" class="flex justify-center text-muted-foreground">Pasieketė pokalbių kanalo
             pabaigą
           </div>
-          <ChatMessage v-for="(message, index) in items" :key="index" :message="message" />
+          <ChatMessage v-for="(message, index) in items" :key="index" :message="message"/>
           <!--                    make sure we add 5% offset to the center of the screen-->
           <div class="fixed bottom-[120px] z-10 left-[45%]" v-if="isThereAnyNewMessage">
             <Button
@@ -40,7 +40,7 @@
         </div>
         <div class="flex flex-row grow justify-end items-end relative">
           <form class="grow group" @submit.prevent="handleSubmit">
-                        <Textarea
+                        <Input
                             placeholder="Įveskite žinutę..."
                             v-model="form.message"
                             class="group-hover:bg-gray-800 border grow border-input p-2 pr-30 h-20"
@@ -48,7 +48,7 @@
             <Button
                 class="absolute bottom-5 right-4"
                 variant="primary"
-                :disabled="isLoading"
+                :disabled="isLoading || form.message === ''"
             >
               <Loader v-if="isLoading"/>
               Siųsti
@@ -63,14 +63,14 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import {Button} from "@/shadcn/ui/button";
-import {Textarea} from "@/shadcn/ui/textarea";
 import ChatMessage from "@/Components/App/Chat/Message.vue";
-import {ref, onMounted, computed} from "vue";
+import {ref, onMounted, computed, onUnmounted} from "vue";
 import {Eye, MoveDown} from "lucide-vue-next";
 import Loader from "@/Components/Loader.vue";
 import useScroll from "@/Use/useScroll";
 import {useForm, usePage} from "@inertiajs/vue3";
 import useInfiniteScrolling from "@/Use/useInfiniteScrolling";
+import Input from "@/shadcn/ui/input/Input.vue";
 
 const props = defineProps({
   messages: {
@@ -91,10 +91,14 @@ const chat = ref(null);
 const landmark = ref(null);
 const {scrollToBottom, scrolledSpecifiedAmount, isInScrollActionDeadzone} = useScroll();
 const {items, canLoadMoreItems, isLoading} = useInfiniteScrolling('messages', landmark)
-const initialyLoaded = ref(false);
 
 const handleSubmit = () => {
+  if (form.message === "") {
+    return;
+  }
+
   isLoading.value = true;
+
   form.post(route("app.chat.send-message"), {
     onSuccess: () => {
       isLoading.value = false;
@@ -106,7 +110,6 @@ const handleSubmit = () => {
 
 onMounted(() => {
   scrollToBottom(chat.value);
-
   bottomChatPositionNumber.value = chat.value.scrollHeight;
 
   channel
@@ -138,7 +141,10 @@ onMounted(() => {
 
         items.value.push(event.chat);
       });
-  // add message to the end of the list
+});
+
+onUnmounted(() => {
+  window.Echo.channel("chat").leave();
 });
 
 const handleScroll = (event) => {

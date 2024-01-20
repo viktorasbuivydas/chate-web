@@ -14,7 +14,7 @@ class ChatController
         $messages = Chat::query()
             ->with('user')
             ->latest()
-            ->paginate(10);
+            ->paginate(20);
 
         return inertia('App/Chat/Index', [
             'messages' => $messages,

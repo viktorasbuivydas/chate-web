@@ -1,11 +1,27 @@
 <template>
-    <div class="flex flex-col space-y-2" :id="'message-'+ message.id ">
-      {{ message.id }}
-        <div>{{ message.user.name }}:</div>
+    <div class="flex flex-col" :id="'message-'+ message.id ">
+      <div class="flex space-x-2 items-center">
+        <div class="flex space-x-2 items-end">
+          <div v-if="type !== 'mine'">
+              <Avatar class="h-8 w-8">
+                <AvatarImage src="/avatars/01.png" alt="@shadcn"/>
+                <AvatarFallback>SC</AvatarFallback>
+              </Avatar>
+          </div>
 
-        <div
-            class="p-2 max-w-100 rounded-md"
-            :class="
+          <div class="flex space-x-2 items-center">
+            <div :class="{'order-last ml-2': type !== 'mine'}">
+              <Button
+                  variant="ghost"
+                  class="rounded-full p-1 border-0 hover:outline bg-background hover:bg-muted hover:outline-input relative"
+                  :id="'message-'+ message.id +'-dropdown'"
+              >
+                <MoreVertical size="1.3rem" class="cursor-pointer" @click="showMenu = !showMenu"/>
+              </Button>
+            </div>
+            <div
+                class="p-2 max-w-100 rounded-md block break-words"
+                :class="
                 type === 'mine'
                     ? 'bg-blue-500'
                     : type === 'other'
@@ -14,13 +30,22 @@
                     ? 'bg-yellow-500'
                     : ''
             "
-        >
-            <div>{{ message.message }}</div>
+            >
+              <div>{{ message.message }}</div>
+            </div>
+          </div>
         </div>
+      </div>
+<!--      <div class="flex justify-end text-sm text-muted-foreground">{{ message.created_at }}</div>-->
     </div>
+
 </template>
 
 <script setup>
+import { MoreVertical} from "lucide-vue-next";
+import {Avatar, AvatarFallback, AvatarImage} from "@/shadcn/ui/avatar";
+import Button from "@/shadcn/ui/button/Button.vue";
+
 const props = defineProps({
     message: {
         type: Object,

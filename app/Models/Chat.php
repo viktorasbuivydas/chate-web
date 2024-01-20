@@ -15,6 +15,10 @@ class Chat extends Model
         'mentioned_user_id'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:m-d H:i:s',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

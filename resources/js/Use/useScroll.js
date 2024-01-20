@@ -12,7 +12,9 @@ export default function useScroll() {
             return;
         }
 
-        element.scrollIntoView(options);
+        setTimeout(() => {
+            element.scrollIntoView(options);
+        }, 500);
     }
 
     const scrollToPosition = (element, position) => {

@@ -19,6 +19,13 @@ export default function useInfiniteScrolling(propName, landmark = null, callback
     const initialUrl = usePage().url;
 
     const canLoadMoreItems = computed(() => !!value().next_page_url);
+
+    const firstItemBasedOnCurrentPage = computed(() => {
+        const currentPage = value().current_page;
+        const perPage = value().per_page;
+        // calculate the first item based on the current page
+        return (currentPage - 1) * (perPage) + 1;
+    });
     const loadMoreItems = async () => {
         if (!canLoadMoreItems.value) {
             return;
@@ -36,8 +43,8 @@ export default function useInfiniteScrolling(propName, landmark = null, callback
                     replace: true,
                     onSuccess: () => {
                         window.history.replaceState({}, "", initialUrl);
-                        const data = sortAscending(value().data);
-                        items.value.splice(0, 0, ...data);
+                        // sorting new items and adding them to the beginning of the list
+                        items.value.splice(0, 0, ...sortAscending(value().data));
 
                         callback();
                     },
@@ -46,9 +53,11 @@ export default function useInfiniteScrolling(propName, landmark = null, callback
                     }
                 })
 
-            lastItemElement.value = document.getElementById('message-' + value().data[value().data.length-1].id);
-            console.log(lastItemElement.value);
-            scrollToElement(lastItemElement.value, {block: 'end', behavior: 'smooth'});
+
+            setTimeout(() => {
+                lastItemElement.value = document.getElementById('message-' + firstItemBasedOnCurrentPage.value);
+                scrollToElement(lastItemElement.value, {block: 'end', behavior: 'smooth'});
+            }, 100)
         }, 1000);
     }
 
