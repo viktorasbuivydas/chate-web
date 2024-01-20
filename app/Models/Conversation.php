@@ -12,19 +12,11 @@ class Conversation extends Model
     use HasFactory, HasUuid;
 
     protected $fillable = [
-        'sender_id',
-        'receiver_id',
-        'message',
-        'read_at',
+      'uuid'
     ];
 
     public function getUuidName()
     {
         return 'uuid';
-    }
-
-    public function sender(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'sender_id');
     }
 }

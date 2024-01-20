@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid as PackageUuid;
 
 trait HasUuid
@@ -22,7 +23,7 @@ trait HasUuid
         parent::boot();
 
         static::creating(function ($model) {
-            $model->{$model->getUuidName()} = PackageUuid::uuid4()->toString();
+            $model->{$model->getUuidName()} = Str::uuid();
         });
     }
 }

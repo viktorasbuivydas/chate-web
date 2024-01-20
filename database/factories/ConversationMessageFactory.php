@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Conversation>
  */
-class ConversationFactory extends Factory
+class ConversationMessageFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,7 +19,11 @@ class ConversationFactory extends Factory
     public function definition(): array
     {
         return [
-            'uuid' => $this->faker->uuid(),
+            'sender_id' => User::factory(),
+            'receiver_id' => User::factory(),
+            'message' => $this->faker->sentence(),
+            'read_at' => null,
+            'conversation_id' => Conversation::factory(),
         ];
     }
 }

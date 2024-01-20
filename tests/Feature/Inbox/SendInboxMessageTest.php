@@ -3,13 +3,14 @@
 namespace Tests\Feature\Inbox;
 
 use App\Models\Conversation;
+use App\Models\ConversationMessage;
 use Tests\TestCase;
 
 class SendInboxMessageTest extends TestCase
 {
     public function test_user_can_send_inbox_message()
     {
-        $conversation = Conversation::factory()->create();
+        $conversation = ConversationMessage::factory()->create();
 
         $conversation->load('sender');
 
