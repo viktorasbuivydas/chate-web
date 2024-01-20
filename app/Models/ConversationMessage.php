@@ -22,4 +22,14 @@ class ConversationMessage extends Model
     {
         return $this->belongsTo(User::class, 'sender_id');
     }
+
+    public function receiver(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'receiver_id');
+    }
+
+    public function conversation(): BelongsTo
+    {
+        return $this->belongsTo(Conversation::class);
+    }
 }

@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Conversation extends Model
 {
@@ -18,5 +17,10 @@ class Conversation extends Model
     public function getUuidName()
     {
         return 'uuid';
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(ConversationMessage::class);
     }
 }

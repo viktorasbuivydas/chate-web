@@ -24,6 +24,7 @@ Route::get('/', function () {
 Route::group([], base_path('routes/app/index.php'));
 Route::group([], base_path('routes/auth.php'));
 Route::group([], base_path('routes/app/chat.php'));
+Route::group([], base_path('routes/app/inbox.php'));
 Route::group([], base_path('routes/app/forum.php'));
 
 Route::middleware('auth')->group(function () {
