@@ -22,8 +22,8 @@
             <Loader/>
             Kraunasi...
           </div>
-          <div ref="landmark" v-if="canLoadMoreItems"></div>
-          <div v-else-if="!isLoading" class="flex justify-center text-muted-foreground">Pasieketė pokalbių kanalo
+          <div ref="landmark"></div>
+          <div v-if="!isLoading && items.length >= 20" class="flex justify-center text-muted-foreground">Pasieketė pokalbių kanalo
             pabaigą
           </div>
           <ChatMessage v-for="(message, index) in items" :key="index" :message="message"/>
