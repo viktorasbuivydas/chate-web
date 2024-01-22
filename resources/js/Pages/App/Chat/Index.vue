@@ -115,11 +115,11 @@ const {scrollToBottom, scrolledSpecifiedAmount, isInScrollActionDeadzone} = useS
 const {items, canLoadMoreItems, isLoading} = useInfiniteScrolling('messages', landmark)
 
 const handleSubmit = () => {
+  isLoading.value = true;
+
   if (form.message === "") {
     form.message = "👍"
   }
-
-  isLoading.value = true;
 
   form.post(route("app.chat.send-message"), {
     onSuccess: () => {
