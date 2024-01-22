@@ -24,3 +24,9 @@ yarn install
 php artisan serve
 yarn dev
 ```
+
+## Add ui component
+https://www.shadcn-vue.com/docs/components/label.html
+```bash
+npx shadcn-vue@latest add label
+```

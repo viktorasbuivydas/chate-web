@@ -39,43 +39,7 @@
           </div>
         </div>
         <div class="flex flex-row items-center grow space-x-2 relative">
-          <div class="flex items-center justify-center">
-            <Button
-                variant="ghost"
-                @click="scrollToBottom(chat)"
-                >
-              <Smile class="inline-block" size="1rem"/>
-            </Button>
-<!--            file-->
-            <Button
-                variant="ghost"
-                @click="scrollToBottom(chat)"
-                >
-              <File class="inline-block" size="1rem"/>
-            </Button>
-          </div>
-          <form class="grow group" @submit.prevent="handleSubmit">
-                        <Input
-                            placeholder="Įveskite žinutę..."
-                            v-model="form.message"
-                            class="group-hover:bg-gray-800 border grow border-input p-2 pr-30 h-[50px]"
-                        />
-            <Button
-                class="absolute bottom-1 right-2"
-                variant="primary"
-                :disabled="isLoading"
-            >
-              <Loader v-if="isLoading"/>
-              <div class="flex items-center justify-center">
-                <template v-if="form.message === ''">
-                  <ThumbsUp class="inline-block" size="1.3rem" />
-                </template>
-                <template v-else>
-                  Siųsti
-                </template>
-              </div>
-            </Button>
-          </form>
+          <ChatInputForm :isLoading="isLoading" :handleSubmit="handleSubmit" @update-model-value="updateModelValue" :model-value="form.message" @handle-submit-form="handleSubmit" :wrapperRef="chat"/>
         </div>
       </div>
     </div>
@@ -87,12 +51,12 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import {Button} from "@/shadcn/ui/button";
 import ChatMessage from "@/Components/App/Chat/Message.vue";
 import {ref, onMounted, computed, onUnmounted} from "vue";
-import {Eye, MoveDown, Smile, File, ThumbsUp} from "lucide-vue-next";
+import {Eye, MoveDown} from "lucide-vue-next";
 import Loader from "@/Components/Loader.vue";
 import useScroll from "@/Use/useScroll";
 import {useForm, usePage} from "@inertiajs/vue3";
 import useInfiniteScrolling from "@/Use/useInfiniteScrolling";
-import Input from "@/shadcn/ui/input/Input.vue";
+import ChatInputForm from "@/Components/Forms/ChatInputForm.vue";
 
 const props = defineProps({
   messages: {
@@ -112,7 +76,7 @@ const isThereAnyNewMessage = ref(false);
 const chat = ref(null);
 const landmark = ref(null);
 const {scrollToBottom, scrolledSpecifiedAmount, isInScrollActionDeadzone} = useScroll();
-const {items, canLoadMoreItems, isLoading} = useInfiniteScrolling('messages', landmark)
+const {items, isLoading} = useInfiniteScrolling('messages', landmark)
 
 const handleSubmit = () => {
   isLoading.value = true;
@@ -164,6 +128,10 @@ onMounted(() => {
         items.value.push(event.chat);
       });
 });
+
+const updateModelValue = (value) => {
+  form.message = value;
+};
 
 onUnmounted(() => {
   window.Echo.channel("chat").leave();
