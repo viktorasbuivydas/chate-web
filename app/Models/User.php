@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,13 +32,18 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function getUuidName()
+    public function getUuidName(): string
     {
         return 'uuid';
     }
 
-    public function chats()
+    public function chats(): HasMany
     {
         return $this->hasMany(Chat::class);
+    }
+
+    public function conversations(): HasManyThrough
+    {
+        return $this->hasManyThrough(ConversationUser::class, ConversationMessage::class, 'user_id', 'conversation_id', 'id', 'id');
     }
 }

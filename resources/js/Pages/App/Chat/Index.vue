@@ -38,20 +38,42 @@
             </Button>
           </div>
         </div>
-        <div class="flex flex-row grow justify-end items-end relative">
+        <div class="flex flex-row items-center grow space-x-2 relative">
+          <div class="flex items-center justify-center">
+            <Button
+                variant="ghost"
+                @click="scrollToBottom(chat)"
+                >
+              <Smile class="inline-block" size="1rem"/>
+            </Button>
+<!--            file-->
+            <Button
+                variant="ghost"
+                @click="scrollToBottom(chat)"
+                >
+              <File class="inline-block" size="1rem"/>
+            </Button>
+          </div>
           <form class="grow group" @submit.prevent="handleSubmit">
                         <Input
                             placeholder="Įveskite žinutę..."
                             v-model="form.message"
-                            class="group-hover:bg-gray-800 border grow border-input p-2 pr-30 h-20"
+                            class="group-hover:bg-gray-800 border grow border-input p-2 pr-30 h-[50px]"
                         />
             <Button
-                class="absolute bottom-5 right-4"
+                class="absolute bottom-1 right-2"
                 variant="primary"
-                :disabled="isLoading || form.message === ''"
+                :disabled="isLoading"
             >
               <Loader v-if="isLoading"/>
-              Siųsti
+              <div class="flex items-center justify-center">
+                <template v-if="form.message === ''">
+                  <ThumbsUp class="inline-block" size="1.3rem" />
+                </template>
+                <template v-else>
+                  Siųsti
+                </template>
+              </div>
             </Button>
           </form>
         </div>
@@ -65,7 +87,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import {Button} from "@/shadcn/ui/button";
 import ChatMessage from "@/Components/App/Chat/Message.vue";
 import {ref, onMounted, computed, onUnmounted} from "vue";
-import {Eye, MoveDown} from "lucide-vue-next";
+import {Eye, MoveDown, Smile, File, ThumbsUp} from "lucide-vue-next";
 import Loader from "@/Components/Loader.vue";
 import useScroll from "@/Use/useScroll";
 import {useForm, usePage} from "@inertiajs/vue3";
@@ -94,7 +116,7 @@ const {items, canLoadMoreItems, isLoading} = useInfiniteScrolling('messages', la
 
 const handleSubmit = () => {
   if (form.message === "") {
-    return;
+    form.message = "👍"
   }
 
   isLoading.value = true;

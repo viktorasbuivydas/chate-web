@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,20 +14,30 @@ class ConversationMessage extends Model
 
     protected $fillable = [
         'conversation_id',
-        'sender_id',
-        'receiver_id',
+        'user_id',
         'message',
         'read_at',
     ];
 
-    public function sender(): BelongsTo
+    protected $casts = [
+        'read_at' => 'datetime',
+        'created_at' => 'datetime',
+    ];
+
+    protected $appends = [
+        'created_at_hours',
+    ];
+
+    protected function createdAtHours(): Attribute
     {
-        return $this->belongsTo(User::class, 'sender_id');
+        return Attribute::make(
+            get: fn () => $this->created_at->diffForHumans(now(), CarbonInterface::DIFF_ABSOLUTE),
+        );
     }
 
-    public function receiver(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'receiver_id');
+        return $this->belongsTo(User::class);
     }
 
     public function conversation(): BelongsTo

@@ -1,18 +1,3 @@
-<script setup lang="ts">
-import { Button } from '@/shadcn/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/shadcn/ui/dropdown-menu'
-import {MessageSquare} from "lucide-vue-next";
-import {Avatar, AvatarFallback, AvatarImage} from "@/shadcn/ui/avatar";
-</script>
-
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
@@ -70,3 +55,18 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/shadcn/ui/avatar";
     </DropdownMenuContent>
   </DropdownMenu>
 </template>
+
+<script setup lang="ts">
+import { Button } from '@/shadcn/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/shadcn/ui/dropdown-menu'
+import {MessageSquare} from "lucide-vue-next";
+import {Avatar, AvatarFallback, AvatarImage} from "@/shadcn/ui/avatar";
+</script>

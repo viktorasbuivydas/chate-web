@@ -19,11 +19,15 @@ class ConversationMessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'sender_id' => User::factory(),
-            'receiver_id' => User::factory(),
-            'message' => $this->faker->sentence(),
-            'read_at' => null,
+            'user_id' => User::factory(),
             'conversation_id' => Conversation::factory(),
+            'message' => $this->faker->sentence(),
+            'read_at' => $this->randomReadAtState(),
         ];
+    }
+
+    private function randomReadAtState(): ?\DateTime
+    {
+        return $this->faker->boolean(50) ? $this->faker->dateTime() : null;
     }
 }
