@@ -5,6 +5,7 @@
         <TooltipTrigger>
           <Button
               variant="ghost"
+              disabled
               @click="scrollToBottom(wrapperRef)"
           >
             <Smile class="inline-block" size="1rem"/>
@@ -20,6 +21,7 @@
         <TooltipTrigger>
           <Button
               variant="ghost"
+              disabled
               @click="scrollToBottom(wrapperRef)"
           >
             <File class="inline-block" size="1rem"/>
