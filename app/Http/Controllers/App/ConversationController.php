@@ -5,6 +5,7 @@ namespace App\Http\Controllers\App;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ConversationRequest;
 use App\Models\Conversation;
+use App\Models\ConversationMessage;
 use App\Models\User;
 
 class ConversationController extends Controller
@@ -20,10 +21,19 @@ class ConversationController extends Controller
             'members' => function ($query) {
                 $query->where('user_id', '!=', auth()->id());
             }])
+            ->whereHas('members', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->paginate(20);
+
+        $messages = ConversationMessage::with('user')
+            ->where('conversation_id', $user->conversations->first()->id)
+            ->latest()
             ->paginate(20);
 
         return inertia('App/Conversation/Index', [
             'conversations' => $conversations,
+            'messages' => $messages,
         ]);
     }
 

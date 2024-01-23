@@ -10,7 +10,7 @@ Route::controller(ConversationController::class)
     ->middleware(['auth'])
     ->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('/show', 'show')->name('show');
+        Route::get('/{comversation:uuid}', 'show')->name('show');
         Route::post('/store', 'store')->name('store');
     });
 

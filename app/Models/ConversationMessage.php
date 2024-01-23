@@ -21,7 +21,7 @@ class ConversationMessage extends Model
 
     protected $casts = [
         'read_at' => 'datetime',
-        'created_at' => 'datetime',
+        'created_at' => 'datetime:Y-m-d H:i:s',
     ];
 
     protected $appends = [

@@ -1,5 +1,5 @@
 <template>
-  <Button variant="ghost" class="flex space-x-2 justify-start p-2 w-full">
+  <Button variant="ghost" size="lg" as="a" :href="route('app.conversations.show', conversation)" class="flex space-x-2 justify-start p-2 w-full">
     <Avatar class="h-10 w-10">
       <AvatarImage :src="avatar" alt="@shadcn"/>
       <AvatarFallback>{{ twoLetterName }}</AvatarFallback>
@@ -18,6 +18,10 @@ import {computed} from "vue";
 const props = defineProps({
   name: {
     type: String,
+    required: true,
+  },
+  conversation: {
+    type: Object,
     required: true,
   },
   displayText: {

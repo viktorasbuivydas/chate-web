@@ -6,7 +6,7 @@ import { buttonVariants } from "@/shadcn/ui/button";
 
 <template>
     <div
-        class="relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:px-0"
+        class="relative pt-10  flex-col items-center justify-center md:grid lg:max-w-none lg:px-0"
     >
         <div class="lg:p-8">
             <div
@@ -17,8 +17,7 @@ import { buttonVariants } from "@/shadcn/ui/button";
                         Prisijungti prie uždaros bendruomenės
                     </h1>
                     <p class="text-sm text-muted-foreground">
-                        Įveskite savo el. pašto adresą ir telefono numerį, kad
-                        sukurtumėte paskyrą.
+                        Kvietimą galite gauti tik iš nario, jau užsiregistravusio sistemoje.
                     </p>
                 </div>
                 <UserAuthForm />
