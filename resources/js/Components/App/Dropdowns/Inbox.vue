@@ -4,7 +4,8 @@
       <Button variant="ghost" href="/"
               class="rounded-full border-0 hover:outline bg-background hover:bg-muted hover:outline-input relative">
         <MessageSquare class="inline-block" size="1.3rem"/>
-        <span class="absolute top-0 right-0 text-xs text-white bg-red-500 rounded-full w-5 h-5 flex justify-center items-center">
+        <span
+            class="absolute top-0 right-0 text-xs text-white bg-red-500 rounded-full w-5 h-5 flex justify-center items-center">
         1
       </span>
       </Button>
@@ -17,13 +18,13 @@
           </p>
         </div>
       </DropdownMenuLabel>
-      <DropdownMenuSeparator />
+      <DropdownMenuSeparator/>
       <DropdownMenuGroup class="flex flex-col space-y-2 max-h-100 overflow-y-auto">
         <!--        new message-->
         <DropdownMenuItem class="flex justify-between">
           <div class="flex space-x-2 text-white font-bold">
             <Avatar class="h-8 w-8">
-              <AvatarImage src="/avatars/01.png" alt="@shadcn" />
+              <AvatarImage src="/avatars/01.png" alt="@shadcn"/>
               <AvatarFallback>SC</AvatarFallback>
             </Avatar>
             <div class="flex flex-col">
@@ -37,7 +38,7 @@
 
         <DropdownMenuItem class="flex space-x-2" v-for="index in 10">
           <Avatar class="h-8 w-8">
-            <AvatarImage src="/avatars/01.png" alt="@shadcn" />
+            <AvatarImage src="/avatars/01.png" alt="@shadcn"/>
             <AvatarFallback>SC</AvatarFallback>
           </Avatar>
           <div class="flex flex-col">
@@ -51,13 +52,13 @@
           </Button>
         </div>
       </DropdownMenuGroup>
-      <DropdownMenuSeparator />
+      <DropdownMenuSeparator/>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/shadcn/ui/button'
+import {Button} from '@/shadcn/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -69,4 +70,11 @@ import {
 } from '@/shadcn/ui/dropdown-menu'
 import {MessageSquare} from "lucide-vue-next";
 import {Avatar, AvatarFallback, AvatarImage} from "@/shadcn/ui/avatar";
+
+const props = defineProps({
+  conversations: {
+    type: Array,
+    default: () => [],
+  },
+});
 </script>

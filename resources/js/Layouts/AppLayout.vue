@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-end px-10 pt-4 space-x-4">
-    <InboxDropdown/>
+    <InboxDropdown :conversations="conversations"/>
     <NotificationsDropdown/>
     <UserNavigation/>
   </div>

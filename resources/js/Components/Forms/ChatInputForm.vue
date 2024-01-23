@@ -49,7 +49,7 @@
     >
       <Loader v-if="isLoading"/>
       <div class="flex items-center justify-center">
-        <template v-if="newModelValue === ''">
+        <template v-if="newModelValue === '' && !isLoading">
           <ThumbsUp class="inline-block" size="1.3rem"/>
         </template>
         <template v-else>
@@ -86,7 +86,7 @@ const props = defineProps({
 })
 const emit = defineEmits(["updateModelValue", "handleSubmitForm", "update:model-value"])
 
-const handleFormSubmit = () => {
+const handleFormSubmit = async () => {
   emit('handleSubmitForm')
   // clear input value
   updateModelValue('')
