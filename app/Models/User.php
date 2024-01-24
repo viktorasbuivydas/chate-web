@@ -37,6 +37,11 @@ class User extends Authenticatable
         return 'uuid';
     }
 
+    public function unreadConversations()
+    {
+        return $this->hasManyThrough(ConversationMessage::class, ConversationUser::class)
+            ->whereNull('read_at');
+    }
     public function chats(): HasMany
     {
         return $this->hasMany(Chat::class);

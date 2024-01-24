@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\ConversationMessage;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -14,13 +15,24 @@ class InboxMessageSent implements ShouldBroadcast
 
     public function __construct(
         public ConversationMessage $conversationMessage
-    ) {
+    )
+    {
     }
 
     public function broadcastOn(): array
     {
-        $this->conversationMessage->loadMissing('conversation');
-        return ['notifications.' . $this->conversationMessage->conversation->uuid];
+        $this->conversationMessage->loadMissing([
+            'conversation',
+            'conversation.members' => function ($query) {
+                $query->whereNot('user_id', $this->conversationMessage->user_id);
+            }
+        ]);
+
+        // broadcast on all other members except the sender
+        return $this->conversationMessage->conversation->members->map(function ($member) {
+            return new PrivateChannel('notifications.' . $member->uuid);
+        })->toArray();
+
     }
 
     public function broadcastAs(): string

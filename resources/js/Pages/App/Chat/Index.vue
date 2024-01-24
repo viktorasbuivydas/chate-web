@@ -113,7 +113,6 @@ onMounted(() => {
 
   window.Echo.channel("chat")
       .listen(".message-sent", (event) => {
-
         if (event.chat.user_id !== user.value.id) {
           if (isInScrollActionDeadzone(chat.value, 100)) {
             // adding 100ms delay to make sure that the message is rendered before scrolling

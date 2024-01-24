@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1 w-full">
+  <nav class="flex flex-col space-y-2 lg:flex-col lg:space-x-0 lg:space-y-1 w-full">
     <template v-if="activeUsers.length > 0">
       <Button
           v-for="item in activeUsers"

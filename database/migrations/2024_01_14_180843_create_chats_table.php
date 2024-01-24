@@ -6,9 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('chats', function (Blueprint $table) {
@@ -18,13 +15,5 @@ return new class extends Migration
             $table->unsignedBigInteger('mentioned_user_id')->nullable();
             $table->timestamps();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('chats');
     }
 };

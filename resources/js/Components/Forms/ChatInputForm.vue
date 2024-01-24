@@ -73,6 +73,7 @@ const {scrollToBottom} = useScroll()
 const props = defineProps({
   isLoading: {
     type: Boolean,
+    default: false,
     required: true,
   },
   modelValue: {

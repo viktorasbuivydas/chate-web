@@ -30,6 +30,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+        $user?->loadMissing('unreadConversations');
+        dd($user);
         return [
             ...parent::share($request),
             'auth' => [
@@ -39,6 +42,9 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
+            'notificationCount' => fn () => [
+                'inbox' => $user?->unreadConversations()->count(),
+            ]
         ];
     }
 }

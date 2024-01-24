@@ -13,8 +13,7 @@ class ConversationMessage extends Model
     use HasFactory;
 
     protected $fillable = [
-        'conversation_id',
-        'user_id',
+        'conversation_user_id',
         'message',
         'read_at',
     ];
@@ -37,7 +36,7 @@ class ConversationMessage extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(ConversationUser::class);
     }
 
     public function conversation(): BelongsTo

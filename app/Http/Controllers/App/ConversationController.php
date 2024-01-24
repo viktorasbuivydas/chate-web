@@ -10,29 +10,53 @@ use App\Models\User;
 
 class ConversationController extends Controller
 {
-    public function index()
+    public function index(?Conversation $conversation = null)
     {
-        $user = User::with('conversations')
-            ->find(auth()->id());
-
         $conversations = Conversation::with([
-            'latestMessage',
             'latestMessage.user',
-            'members' => function ($query) {
-                $query->where('user_id', '!=', auth()->id());
-            }])
-            ->whereHas('members', function ($query) {
+            'chatWithMembers'
+        ])
+            ->withWhereHas('members', function ($query) {
                 $query->where('user_id', auth()->id());
             })
             ->paginate(20);
 
+        if ($conversation) {
+            $conversation->load([
+                'members' => function ($query) {
+                    $query->where('user_id', auth()->id());
+                },
+                'messages.user',
+            ]);
+        }
+
         $messages = ConversationMessage::with('user')
-            ->where('conversation_id', $user->conversations->first()->id)
-            ->latest()
+            ->where('conversation_id', $conversation?->id)
+//            ->latest()
             ->paginate(20);
+
+        // update messages to read
+        $messages->each(function ($message) {
+            if ($message->user_id !== auth()->id()) {
+                $message->update([
+                    'read_at' => now(),
+                ]);
+            }
+        });
+
+        if (!$conversation) {
+            $conversation = $conversations->first();
+        }
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'conversations' => $conversations,
+            ]);
+        }
 
         return inertia('App/Conversation/Index', [
             'conversations' => $conversations,
+            'conversation' => $conversation,
             'messages' => $messages,
         ]);
     }
@@ -43,6 +67,6 @@ class ConversationController extends Controller
 
         $conversation->users()->attach($request->input('users'));
 
-        return redirect()->route('app.conversations.show', $conversation->uuid);
+        return redirect()->route('app.conversations.index', $conversation->uuid);
     }
 }

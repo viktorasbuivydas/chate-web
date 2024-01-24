@@ -22,8 +22,6 @@ class ConversationMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'conversation' => ['required', 'string', 'exists:conversations,uuid'],
             'message' => ['required', 'string'],
         ];
     }
