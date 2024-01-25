@@ -9,7 +9,8 @@ Route::controller(ConversationController::class)
     ->prefix('/app/conversations')
     ->middleware(['auth'])
     ->group(function () {
-        Route::get('/{conversation:uuid?}', 'index')->name('index');
+        Route::get('/', 'index')->name('index');
+        Route::get('/{conversation:uuid}', 'show')->name('show');
         Route::post('/store', 'store')->name('store');
     });
 

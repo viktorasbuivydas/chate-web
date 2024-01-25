@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Conversation;
+use App\Models\ConversationMessage;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -13,16 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+         $users = User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Tom',
-            'email' => 'tom@gmail.com',
-        ]);
-
-        User::factory()->create([
-            'name' => 'John',
-            'email' => 'john@gmail.com',
-        ]);
+        $conversations = Conversation::factory(10)->create();
+        ConversationMessage::factory(100)
+            ->recycle($conversations)
+            ->recycle($users)
+            ->create();
     }
 }

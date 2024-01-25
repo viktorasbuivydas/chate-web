@@ -6,53 +6,63 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ConversationRequest;
 use App\Models\Conversation;
 use App\Models\ConversationMessage;
+use App\Models\ConversationUser;
 use App\Models\User;
+use App\Queries\ConversationMessageQueries;
+use App\Queries\ConversationQueries;
 
 class ConversationController extends Controller
 {
-    public function index(?Conversation $conversation = null)
+    /**
+     * @throws \Exception
+     */
+    public function index(ConversationQueries $conversationQueries, ConversationMessageQueries $conversationMessageQueries)
     {
-        $conversations = Conversation::with([
-            'latestMessage.user',
-            'chatWithMembers'
-        ])
-            ->withWhereHas('members', function ($query) {
-                $query->where('user_id', auth()->id());
-            })
-            ->paginate(20);
+        $userId = auth()->id();
+        $conversations = $conversationQueries->getPaginatedConversations($userId);
 
-        if ($conversation) {
-            $conversation->load([
-                'members' => function ($query) {
-                    $query->where('user_id', auth()->id());
-                },
-                'messages.user',
-            ]);
-        }
+        abort_if($conversations->isEmpty(), 404);
 
-        $messages = ConversationMessage::with('user')
-            ->where('conversation_id', $conversation?->id)
-//            ->latest()
-            ->paginate(20);
-
-        // update messages to read
-        $messages->each(function ($message) {
-            if ($message->user_id !== auth()->id()) {
-                $message->update([
-                    'read_at' => now(),
-                ]);
-            }
-        });
-
-        if (!$conversation) {
-            $conversation = $conversations->first();
-        }
+        $messages = $conversationMessageQueries->getPaginatedConversationMessages($conversations->first(), $userId);
 
         if (request()->wantsJson()) {
             return response()->json([
                 'conversations' => $conversations,
+                'messages' => $messages,
             ]);
         }
+
+        return inertia('App/Conversation/Index', [
+            'conversations' => $conversations,
+            'messages' => $messages,
+        ]);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function show(Conversation $conversation, ConversationQueries $conversationQueries)
+    {
+        $conversations = app(ConversationQueries::class)
+            ->getPaginatedConversations();
+
+        $messages = $conversationQueries->getPaginatedConversationMessages($conversation, $userId);
+
+        // update messages to read
+//        $messages->each(function ($message) {
+//            if ($message->user_id !== auth()->id()) {
+//                $message->update([
+//                    'read_at' => now(),
+//                ]);
+//            }
+//        });
+
+        $conversation->load([
+            'members' => function ($query) {
+                $query->where('user_id', auth()->id());
+            },
+            'messages.user',
+        ]);
 
         return inertia('App/Conversation/Index', [
             'conversations' => $conversations,
@@ -67,6 +77,6 @@ class ConversationController extends Controller
 
         $conversation->users()->attach($request->input('users'));
 
-        return redirect()->route('app.conversations.index', $conversation->uuid);
+        return redirect()->route('app.conversations.show', $conversation->uuid);
     }
 }

@@ -25,11 +25,11 @@ class ConversationMessageController extends Controller
 
             event(new InboxMessageSent($message));
         } catch (\Exception $e) {
-            return redirect()->route('app.conversations.index', $conversation->uuid)->with([
+            return redirect()->route('app.conversations.show', $conversation->uuid)->with([
                 'error' => 'Failed to send message',
             ]);
         }
 
-        return redirect()->route('app.conversations.index', $conversation->uuid);
+        return redirect()->route('app.conversations.show', $conversation->uuid);
     }
 }

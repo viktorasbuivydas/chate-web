@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-end px-10 pt-4 space-x-4">
-    <InboxDropdown :count="inboxCount" @update:open="openedInboxDropdown"/>
+    <InboxDropdown :count="unreadConversationsCount" @update:open="openedInboxDropdown"/>
     <NotificationsDropdown/>
     <UserNavigation/>
   </div>
@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import SidebarNav from '@/Components/App/SidebarNav.vue'
 import UserNavigation from "@/Components/App/Dropdowns/UserNavigation.vue";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import RightSidebarNav from "@/Components/App/RightSidebarNav.vue";
 import InboxDropdown from "@/Components/App/Dropdowns/Inbox.vue";
 import NotificationsDropdown from "@/Components/App/Dropdowns/Notifications.vue";
@@ -44,5 +44,9 @@ onMounted(() => {
     console.log(e)
     console.log('got event!!!')
   });
+})
+
+const unreadConversationsCount = computed(() => {
+  return usePage().props.unread_conversations_count;
 })
 </script>

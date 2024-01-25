@@ -39,8 +39,7 @@ class User extends Authenticatable
 
     public function unreadConversations()
     {
-        return $this->hasManyThrough(ConversationMessage::class, ConversationUser::class)
-            ->whereNull('read_at');
+        return $this->hasManyThrough(Conversation::class, ConversationUser::class, 'user_id', 'id', 'id', 'conversation_id');
     }
     public function chats(): HasMany
     {

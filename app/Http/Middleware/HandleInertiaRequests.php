@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -31,20 +32,20 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $user = $request->user();
-        $user?->loadMissing('unreadConversations');
-        dd($user);
+        $user = User::query()
+            ->withCount('unreadConversations')
+            ->find($user->id);
+
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => fn () => [
+            'ziggy' => fn() => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
-            'notificationCount' => fn () => [
-                'inbox' => $user?->unreadConversations()->count(),
-            ]
+            'unread_conversations_count' => $user?->unread_conversations_count,
         ];
     }
 }

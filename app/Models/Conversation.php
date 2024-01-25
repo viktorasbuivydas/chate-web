@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Conversation extends Model
 {
@@ -18,19 +20,29 @@ class Conversation extends Model
         'uuid',
     ];
 
+    protected $perPage = 20;
+
     public function getUuidName(): string
     {
         return 'uuid';
     }
 
-    public function messages(): HasMany
+    public function latestMessage(): HasOneThrough
     {
-        return $this->hasMany(ConversationMessage::class);
+        return $this->hasOneThrough(ConversationMessage::class, ConversationUser::class, 'conversation_id', 'id', 'id', 'conversation_id')
+            ->latest()
+            ->limit(1);
     }
 
-    public function latestMessage(): HasOne
+    public function latestUnreadMessage(): HasOneThrough
     {
-        return $this->hasOne(ConversationMessage::class)->latest();
+        return $this->latestMessage()
+            ->whereNull('read_at');
+    }
+
+    public function messages(): HasManyThrough
+    {
+        return $this->hasManyThrough(ConversationMessage::class, ConversationUser::class, 'conversation_id', 'conversation_user_id', 'id', 'id');
     }
 
     public function members(): BelongsToMany

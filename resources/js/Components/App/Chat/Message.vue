@@ -1,15 +1,15 @@
 <template>
-    <template v-if="user.id === message.user.id">
+    <template v-if="user?.id === message?.user?.id">
         <div class="flex justify-end">
             <ChatMessageRow :message="message" type="mine"/>
         </div>
     </template>
-    <template v-else-if="user.id !== message.user.id && message.mentioned_user_id !== user.id">
+    <template v-else-if="user?.id !== message?.user?.id && message?.mentioned_user_id !== user?.id">
         <div class="flex justify-start">
             <ChatMessageRow :message="message" type="other"/>
         </div>
     </template>
-    <template v-else-if="user.id !== message.user.id && message.mentioned_user_id">
+    <template v-else-if="user?.id !== message?.user?.id && message?.mentioned_user_id">
         <div class="flex justify-start">
             <ChatMessageRow :message="message" type="to_me"/>
         </div>

@@ -27,7 +27,7 @@
       <DropdownMenuGroup class="flex flex-col space-y-2 h-screen max-h-100 overflow-y-auto">
         <DropdownMenuItem class="flex space-x-2 justify-between cursor-pointer"
                           v-for="(conversation, index) in conversations?.data"
-                          as="a" :href="route('app.conversations.index', conversation.uuid)"
+                          as="a" :href="route('app.conversations.show', conversation.uuid)"
         >
           <template v-if="isUnreadMessage(conversation)">
             <div class="flex space-x-2 text-white font-bold">

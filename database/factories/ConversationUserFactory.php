@@ -19,8 +19,8 @@ class ConversationUserFactory extends Factory
     public function definition(): array
     {
         return [
-            'conversation_id' => Conversation::factory(),
             'user_id' => User::factory(),
+            'conversation_id' => Conversation::factory(),
         ];
     }
 }

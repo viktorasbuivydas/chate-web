@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class ConversationMessage extends Model
 {
@@ -23,6 +25,8 @@ class ConversationMessage extends Model
         'created_at' => 'datetime:Y-m-d H:i:s',
     ];
 
+    protected $perPage = 20;
+
     protected $appends = [
         'created_at_hours',
     ];
@@ -34,9 +38,9 @@ class ConversationMessage extends Model
         );
     }
 
-    public function user(): BelongsTo
+    public function user(): HasOne
     {
-        return $this->belongsTo(ConversationUser::class);
+        return $this->hasOne(User::class, 'id', 'conversation_user_id');
     }
 
     public function conversation(): BelongsTo

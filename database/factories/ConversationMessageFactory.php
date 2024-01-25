@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Conversation;
+use App\Models\ConversationUser;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,8 +20,7 @@ class ConversationMessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'conversation_id' => Conversation::factory(),
+            'conversation_user_id' => ConversationUser::factory(),
             'message' => $this->faker->sentence(),
             'read_at' => $this->randomReadAtState(),
         ];
