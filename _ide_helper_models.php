@@ -1,6 +1,7 @@
 <?php
 
 // @formatter:off
+// phpcs:ignoreFile
 /**
  * A helper file for your Eloquent Models
  * Copy the phpDocs from this file to the correct Model,
@@ -36,6 +37,31 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Online
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string|null $browser
+ * @property string|null $os
+ * @property string|null $last_place
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Online newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Online newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Online query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Online whereBrowser($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Online whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Online whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Online whereLastPlace($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Online whereOs($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Online whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Online whereUserId($value)
+ */
+	class Online extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\User
  *
  * @property int $id
@@ -43,6 +69,7 @@ namespace App\Models{
  * @property string $email
  * @property string|null $google_id
  * @property mixed $password
+ * @property string $role
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -63,6 +90,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
 	class User extends \Eloquent {}

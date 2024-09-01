@@ -2,9 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Http\Request;
+use App\Models\Online;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
+use Illuminate\Http\Request;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -30,12 +31,15 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $onlineCount = Online::select('updated_at')->where('updated_at', '>', now()->subMinutes(10))->count();
+
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => fn () => [
+            'online' => $onlineCount,
+            'ziggy' => fn() => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],

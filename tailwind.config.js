@@ -13,15 +13,17 @@ module.exports = {
     theme: {
         container: {
             center: true,
-            padding: "2rem",
             screens: {
-                "2xl": "1400px",
+                "lg": "800px",
+                "xl": "800px",
+                "2xl": "800px",
             },
         },
         extend: {
             width: {
                 10: "40px",
                 100: "400px",
+                
             },
             spacing: {
                 100: "400px",

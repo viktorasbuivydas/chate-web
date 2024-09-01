@@ -98,4 +98,8 @@
   #chat::-webkit-scrollbar-thumb:hover {
     background: #c0a0b9;
   }
+
+  a {
+    @apply text-gray-100 hover:text-blue-200 font-semibold;
+  }
 }

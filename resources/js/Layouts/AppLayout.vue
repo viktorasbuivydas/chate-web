@@ -1,35 +1,52 @@
 <template>
-  <div class="flex justify-end px-10 pt-4">
-    <UserNavigation/>
-  </div>
-  <div class="hidden space-y-6 px-4 pt-10 md:flex relative">
-    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 lg:space-y-0 grow h-[calc(100%-200px)]">
-      <div class="flex flex-col w-full">
-        <SidebarNav />
-      </div>
-      <div class="col-span-9">
-          <slot/>
-      </div>
-      <div class="col-span-2 w-full">
-        <RightSidebarNav :active-users="activeUsers"/>
-      </div>
+  <div class="flex flex-col space-y-2 pt-4 container">
+    <MainMenu />
+    <div class="flex flex-col space-y-2">
+
+      <slot />
     </div>
+    <template>
+      <div v-if="!hideBottomBar">
+        <div class="flex flex-col space-y-2 pt-4 border-t border-t-border max-w-10 text-center">
+          <div class="flex justify-center items-center space-x-1">
+            <Radio />
+            <div>Naršo: {{ online }}</div>
+          </div>
+          <div class="flex justify-center items-center space-x-1">
+            <LogOut />
+            <Link href="/logout"> Atsijungti</Link>
+          </div>
+
+        </div>
+        <footer class="flex flex-col space-y-2 pt-4 text-center text-muted-foreground text-xs">
+          <div>Projektas: Chate.lt {{ new Date().getFullYear() }}</div>
+          <div class="flex justify-center items-center">
+            <a href="https://github.com/viktorasbuivydas/chate-web" target="_blank">
+              <Github />
+            </a>
+          </div>
+        </footer>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import SidebarNav from '@/Components/App/SidebarNav.vue'
-import UserNavigation from "@/Components/App/Dropdowns/UserNavigation.vue";
-import {computed, onMounted, onUnmounted, ref} from "vue";
-import RightSidebarNav from "@/Components/App/RightSidebarNav.vue";
+import MainMenu from "@/Components/App/Menu/MainMenu.vue";
+import { onMounted, ref, computed } from "vue";
+import { usePage } from '@inertiajs/vue3';
+import { Github, Radio, LogOut } from "lucide-vue-next";
+import { Link } from '@inertiajs/vue3';
 
-var channel = window.Echo.join('online');
-const activeUsers = ref([]);
+defineProps({
+  hideBottomBar: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-onMounted(() => {
-  channel.here((users) => {
-    activeUsers.value = users;
-  });
+const online = computed(() => {
+  return usePage().props.online;
 })
 
 </script>

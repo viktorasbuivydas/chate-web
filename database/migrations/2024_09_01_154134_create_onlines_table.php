@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\Roles;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -12,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('onlines', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('google_id')->nullable();
-            $table->string('password');
-            $table->string('role')->default(Roles::User->value);
-            $table->rememberToken();
+            $table->foreignId('user_id')->constrained('users');
+            $table->string('browser')->nullable();
+            $table->string('os')->nullable();
+            $table->string('last_place')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('onlines');
     }
 };

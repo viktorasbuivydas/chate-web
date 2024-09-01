@@ -11,7 +11,11 @@ export default function useIntersect (element, callback = () => {}, options = {}
 
 
     onMounted(() => {
-        observer.observe(element.value);
+        try {
+            observer.observe(element.value);
+        } catch (e) {
+            console.error('Cant observe element', e);
+        }
     });
 
     onUnmounted(() => {

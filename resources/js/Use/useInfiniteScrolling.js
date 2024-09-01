@@ -14,7 +14,7 @@ export default function useInfiniteScrolling(propName, landmark = null, callback
     const lastItemElement = ref(null)
     const value = () => usePage().props[propName];
 
-    const items = ref(sortAscending(value().data));
+    const items = ref(value().data);
 
     const initialUrl = usePage().url;
 
@@ -39,8 +39,8 @@ export default function useInfiniteScrolling(propName, landmark = null, callback
                     onSuccess: () => {
                         window.history.replaceState({}, "", initialUrl);
                         const data = sortAscending(value().data);
-                        items.value.splice(0, 0, ...data);
-
+                        items.value.push(...data);
+                        
                         callback();
                     },
                     onFinish: () => {

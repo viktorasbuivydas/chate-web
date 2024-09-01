@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\App;
 
-use App\Events\MessageSent;
-use App\Http\Requests\ChatRequest;
 use App\Models\Chat;
+use App\Events\MessageSent;
+use App\Actions\UpdateOnline;
+use App\Http\Requests\ChatRequest;
 use Illuminate\Support\Facades\Request;
 
 class ChatController
 {
     public function index(Request $request)
     {
+        app(UpdateOnline::class)->handle('Pokalbiuose');
+
         $messages = Chat::query()
             ->with('user')
             ->latest()
